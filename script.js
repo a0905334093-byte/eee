@@ -431,6 +431,76 @@ el.resetBtn.addEventListener("click", () => {
 });
 el.rulesBtn.addEventListener("click", () => el.rulesDialog.showModal());
 
+let chatStage = 0;
+let currentSpeaker = "describer";
+let questionMode = false;
+
+function addSystemMsg(text) {
+  const box = document.getElementById("chatMessages");
+  if (!box) return;
+
+  const div = document.createElement("div");
+  div.className = "chat-msg system";
+
+  //質詢回合
+  div.innerHTML = `
+    <div class="chat-msg-text"><strong>系統：</strong>${text}</div>
+  `;
+
+  box.append(div);
+  box.scrollTop = box.scrollHeight;
+}
+
+function startQuestionRoom() {
+  questionMode = true;
+  chatStage = 0;
+  currentSpeaker = "describer";
+
+  addSystemMsg(
+    `玩家 ${game.players[game.describer].name} 請描述`
+  );
+}
+
+function nextQuestionStage() {
+
+  const describer = game.players[game.describer].name;
+  const guesser = game.players[game.guesser].name;
+
+  chatStage++;
+
+  switch(chatStage){
+
+    case 1:
+      currentSpeaker = "guesser";
+      addSystemMsg(`玩家 ${guesser} 請詢問`);
+      break;
+
+    case 2:
+      currentSpeaker = "describer";
+      addSystemMsg(`玩家 ${describer} 請回答`);
+      break;
+
+    case 3:
+      currentSpeaker = "guesser";
+      addSystemMsg(`玩家 ${guesser} 請詢問`);
+      break;
+
+    case 4:
+      currentSpeaker = "describer";
+      addSystemMsg(`玩家 ${describer} 請回答`);
+      break;
+
+    case 5:
+      currentSpeaker = "guesser";
+      addSystemMsg(`玩家 ${guesser} 最後一次詢問`);
+      break;
+
+    case 6:
+      questionMode = false;
+      addSystemMsg("質問結束，請進行相信／不相信判斷");
+      break;
+  }
+}
 // ── 聊天室 ──
 function nowTime() {
   const d = new Date();
