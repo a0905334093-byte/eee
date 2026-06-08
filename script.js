@@ -530,12 +530,32 @@ function addChatMsg(name, text) {
 }
 
 function sendChat() {
+
+  if (!game) return;
+
   const input = document.getElementById("chatInput");
   const text = input.value.trim();
+
   if (!text) return;
-  const senderName = game ? game.players[game.describer]?.name ?? "玩家" : "玩家";
+
+  const describerName = game.players[game.describer].name;
+  const guesserName = game.players[game.guesser].name;
+
+  let senderName;
+
+  if (currentSpeaker === "describer") {
+    senderName = describerName;
+  } else {
+    senderName = guesserName;
+  }
+
   addChatMsg(senderName, text);
+
   input.value = "";
+
+  if (questionMode) {
+    nextQuestionStage();
+  }
 }
 
 document.getElementById("chatSend")?.addEventListener("click", sendChat);
