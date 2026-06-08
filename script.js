@@ -213,8 +213,10 @@ function makeClaim(isLie) {
     game.claim = game.drawnCard;
   }
   game.phase = "guess";
-  game.message = `${game.players[game.guesser].name} 請判斷這張牌是不是「${game.claim.name}」。`;
-  render();
+game.message = "請先完成三輪質問";
+render();
+
+startQuestionRoom();
 }
 
 function resolveGuess(believe) {
