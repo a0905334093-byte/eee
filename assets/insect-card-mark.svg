@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Insect card">
+  <rect width="64" height="64" rx="8" fill="#2f7d57"/>
+  <rect x="13" y="8" width="38" height="48" rx="6" fill="#fbfaf5"/>
+  <circle cx="32" cy="29" r="8" fill="#1f2933"/>
+  <ellipse cx="32" cy="41" rx="7" ry="10" fill="#d89227"/>
+  <path d="M23 25 18 21M41 25l5-4M23 34l-7 2M41 34l7 2M25 43l-7 5M39 43l7 5" stroke="#1f2933" stroke-width="2.5" stroke-linecap="round"/>
+  <path d="M32 21v28" stroke="#fbfaf5" stroke-width="1.5"/>
+</svg>

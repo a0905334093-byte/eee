@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>吹牛大王 | 多人單機版</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- ── 設定畫面 ── -->
+  <section id="setupScreen" class="setup-screen" aria-labelledby="setupTitle">
+    <div class="setup-card">
+      <div class="brand-block">
+        <img src="assets/insect-card-mark.svg" alt="" class="brand-mark">
+        <p>昆蟲卡牌推理遊戲</p>
+        <h1 id="setupTitle">吹牛大王</h1>
+      </div>
+      <form id="setupForm" class="setup-form">
+        <fieldset class="player-count" aria-label="選擇玩家人數">
+          <legend>玩家人數</legend>
+          <label>
+            <input type="radio" name="playerCount" value="2">
+            <span class="count-badge">2</span>
+            <span>雙人對決</span>
+          </label>
+          <label>
+            <input type="radio" name="playerCount" value="3">
+            <span class="count-badge">3</span>
+            <span>三人輪替</span>
+          </label>
+          <label>
+            <input type="radio" name="playerCount" value="4" checked>
+            <span class="count-badge">4</span>
+            <span>四人局</span>
+          </label>
+        </fieldset>
+        <div id="nameFields" class="name-fields"></div>
+        <button class="primary-action" type="submit">開始遊戲</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- ── 遊戲畫面 ── -->
+  <main id="gameScreen" class="game-screen hidden">
+    <div class="board">
+
+      <!-- 左欄 -->
+      <aside class="left-col">
+
+        <div class="lobby-frame">
+          <div class="frame-header"><img src="assets/header_lobby.png" alt="遊戲大廳" class="frame-header-img"></div>
+          <div class="frame-body">
+            <h1 class="game-title-text">吹牛大王</h1>
+            <div class="lobby-info">
+              <p>模式：多人（4人）</p>
+              <p>規則：描述者描述自己抽到的卡牌，猜測者判斷是否誠實。</p>
+            </div>
+            <nav class="utility-actions">
+              <button id="rulesBtn" type="button">📖 遊戲說明</button>
+              <button id="resetBtn" type="button">↩ 重新設定</button>
+            </nav>
+          </div>
+        </div>
+
+        <div class="lobby-frame">
+          <div class="frame-header"><img src="assets/header_score.png" alt="目前積分" class="frame-header-img"></div>
+          <div class="frame-body">
+            <div id="scoreList" class="score-list"></div>
+            <p class="score-note">總點數最少者獲勝</p>
+          </div>
+        </div>
+
+      </aside>
+
+      <!-- 中欄 -->
+      <section class="center-col">
+        <!-- 回合 banner -->
+        <div class="round-banner">
+          第 <strong id="roundNumber">1</strong> 回合
+        </div>
+
+        <!-- 玩家列 -->
+        <div id="playersRing" class="players-row" aria-label="玩家狀態"></div>
+
+        <!-- 主遊戲大框 -->
+        <div class="main-game-box">
+          <img class="deco-insect di-1" src="assets/02_蝴蝶_去背.png" alt="">
+          <img class="deco-insect di-2" src="assets/07_螞蟻_去背.png" alt="">
+          <img class="deco-insect di-3" src="assets/03_蜘蛛_去背.png" alt="">
+          <img class="deco-insect di-4" src="assets/06_蜈蚣_去背.png" alt="">
+          <!-- 左+中：卡牌區 -->
+          <div class="cards-main">
+            <div class="cards-row">
+              <!-- 牌庫 -->
+              <div class="card-col deck-col">
+                <div class="deck-stack" aria-label="牌堆">
+                  <div></div><div></div><div></div>
+                </div>
+                <span class="card-label" id="deckLabel">牌庫</span>
+              </div>
+              <!-- 翻出的牌 -->
+              <div class="card-col reveal-col">
+                <article id="revealedCard" class="insect-card card-back" aria-live="polite">
+                  <img id="cardImage" src="assets/02_蝴蝶_去背.png" alt="">
+                  <strong id="cardName">昆蟲牌</strong>
+                </article>
+                <span class="card-label">本回合描述卡牌</span>
+              </div>
+            </div>
+            <!-- 說明文字列 -->
+            <div class="cards-hints">
+              <p id="claimText" class="claim-text">尚未宣稱昆蟲</p>
+              <small id="phaseHint" class="phase-hint-text">描述者抽牌後，選擇要誠實描述或說謊。</small>
+            </div>
+          </div>
+
+          <!-- 右：描述框 + 猜測框 -->
+          <div class="desc-side">
+            <div class="desc-panel-box describer-box">
+              <div class="desc-panel-title">
+                <span class="desc-label">描述者</span>
+                <strong id="describerName">玩家 1</strong>
+              </div>
+              <p class="desc-hint">請描述你抽到的卡牌，但不要直接說出卡牌名稱！</p>
+            </div>
+            <div class="desc-panel-box guesser-box">
+              <div class="desc-panel-title">
+                <span class="desc-label">猜測者</span>
+                <strong id="guesserName">玩家 2</strong>
+              </div>
+              <p class="desc-hint">請根據描述進行猜測，並決定是否相信描述者！</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 右欄：聊天室 -->
+      <aside class="right-col">
+        <div class="chat-frame">
+          <div class="chat-header">💬 聊天室</div>
+          <div class="chat-messages" id="chatMessages"></div>
+          <div class="chat-input-row">
+            <input id="chatInput" class="chat-input" type="text" placeholder="輸入訊息..." maxlength="60">
+            <button id="chatSend" class="chat-send-btn" type="button">發送</button>
+          </div>
+        </div>
+      </aside>
+
+      <!-- 底列 -->
+      <div class="bottom-row">
+        <aside class="bottom-panel" aria-labelledby="handTitle">
+          <div class="bottom-panel-header">🃏 描述者手牌</div>
+          <div class="bottom-panel-body">
+            <div id="currentHand" class="hand-grid"></div>
+          </div>
+        </aside>
+        <aside class="bottom-panel" aria-labelledby="guesserHandTitle">
+          <div class="bottom-panel-header">🃏 猜測者手牌</div>
+          <div class="bottom-panel-body">
+            <div id="guesserHand" class="hand-grid"></div>
+          </div>
+        </aside>
+        <aside class="bottom-panel event-bottom" aria-labelledby="eventTitle">
+          <div class="bottom-panel-header">📜 事件紀錄</div>
+          <div class="bottom-panel-body">
+            <div id="eventLog" class="event-log"></div>
+          </div>
+        </aside>
+      </div>
+
+    </div><!-- .board -->
+
+    <dialog id="rulesDialog">
+      <form method="dialog">
+        <h2>遊戲說明</h2>
+        <p>每回合描述者抽一張昆蟲牌，可以選擇誠實說出牌名，或說謊改稱其他昆蟲。猜測者選擇相信或不相信。</p>
+        <p>若猜測者判斷正確，描述者收下該牌；若猜錯，猜測者收下該牌。遊戲結束時，手牌點數最低的玩家獲勝。</p>
+        <button type="submit">關閉</button>
+      </form>
+    </dialog>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
