@@ -220,6 +220,10 @@ startQuestionRoom();
 }
 
 function resolveGuess(believe) {
+  if (questionMode) {
+  alert("請先完成三輪質問");
+  return;
+}
   if (game.phase !== "guess") return;
   const isTruth = !game.lie;
   const guessCorrect = believe === isTruth;
