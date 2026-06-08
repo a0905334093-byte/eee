@@ -10,10 +10,10 @@ const cards = [
 ];
 
 const avatarList = [
-  "頭像/男_探險家.png", "頭像/男_童軍.png", "頭像/男_黑框眼鏡.png",
-  "頭像/男_軍帽.png",   "頭像/男_捲毛.png",  "頭像/男_紅框眼鏡.png",
-  "頭像/女_草帽捕蟲網.png", "頭像/女_雙丸子頭.png", "頭像/女_草帽蝴蝶.png",
-  "頭像/女_小花馬尾.png",   "頭像/女_紫蝴蝶結.png", "頭像/女_紅貝蕾帽.png",
+  "avatars/male_explorer.png", "avatars/male_scout.png", "avatars/male_black_glasses.png",
+  "avatars/male_cap.png", "avatars/male_curly.png", "avatars/male_red_glasses.png",
+  "avatars/female_net_hat.png", "avatars/female_buns.png", "avatars/female_butterfly_hat.png",
+  "avatars/female_flower_ponytail.png", "avatars/female_purple_bow.png", "avatars/female_red_beret.png",
 ];
 const maxRounds = 8;
 
